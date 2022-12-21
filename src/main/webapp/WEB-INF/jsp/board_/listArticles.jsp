@@ -2,7 +2,6 @@
     pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 
 <%
   request.setCharacterEncoding("UTF-8");
@@ -38,7 +37,7 @@
       </td>  
     </tr>
   </c:when>
-  <c:when test="${!empty articlesList}" >
+ <c:when test="${!empty articlesList}" >
     <c:forEach  var="article" items="${articlesList}" varStatus="articleNum" >
      <tr align="center">
 	<td width="5%">${articleNum.count}</td>
@@ -47,7 +46,7 @@
 	<td align='left'  width="35%">
 	  <span style="padding-right:30px"></span>
 
-	   <a class='cls1' href="${contextPath}/detail?num=${article.num}">${article.content}</a>
+	   <a class='cls1' href="${contextPath}/board/detail.do?num=${article.num}">${article.content}</a>
 	  
 	  </td>
 	  <td  width="10%">${article.id}</td>
@@ -55,12 +54,38 @@
 	
 	</tr>
     </c:forEach>
-     </c:when>
+     </c:when> 
     </c:choose>
 </table>
 <a  class="cls1"  href="/project/editor.jsp"><p class="cls2">글쓰기</p></a>
-
+<button id="firstPage">처음</button>
+<button id="prev">&lt;</button>
+<div id="pageButtons" style="display: inline-block">
+	<%-- <c:forEach var="page" items="${articlesList}">
+		<button data-page="${page}">"${page}"</button>
+	</c:forEach> --%>
+	<c:forEach var="pageNo" begin="${startPageNo}" end="${endPageNo}">
+		<c:choose>
+			<c:when test="${currentPageNo == pageNo}">
+				<span style="font-size:1.3rem;">${pageNo}</span>
+			</c:when>
+			<c:otherwise>
+				<a href="javascript:movePage(${pageNo})">${pageNo}</a>
+			</c:otherwise>
+		</c:choose>
+		&nbsp;
+	</c:forEach>
+	
+	<c:if test="${currentPageNo != totalPageNo}">
+		<a href="javascript:movePage(${currentPageNo+1})"> &gt; </a>
+		&nbsp;
+		<a href="javascript:movePage(${totalPageNo})"> &gt;&gt; </a>
+	</c:if>
+</div>
+<button id="next">&gt;</button>
+<button id="lastPage">마지막</button>
 <form id ="content" name="content" action ="searchBoard">
+<input type="hidden" name="pageNum" id="pageNo" value="${currentPageNo}"/>
 <select name='searchSelect' id="searchSelect">
 		<option disabled="disabled">선택</option>
 		<option value='카테고리'>카테고리</option>
@@ -74,6 +99,19 @@
 
 
 <script type="text/javascript">
+function movePage(pageNum) {
+	document.querySelector("#pageNo").value = pageNum; 
+	location.href = "/project/board/boardShow.do?page=" + pageNum;
+}
+
+
+function jsSearch() {
+	document.querySelector("#pageNo").value = 1; 
+	searchForm.submit();
+}
+
+
+
 /*폼이름 */
 let content = document.querySelector("#content");
 /*버튼이름  */
@@ -84,7 +122,9 @@ searchButton.addEventListener("click", e => {
    content.action = "searchBoard";
    content.submit();
    });
-
+pageButtons.querySelectorAll("button").forEach(node => node.addEventListener("click", e => {
+	location.href = "/project/board/boardShow.do?page=" + e.target.dataset.page;
+}));
 </script>
 </body>
 </html>

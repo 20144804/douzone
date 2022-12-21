@@ -1,12 +1,15 @@
-package board;
+package action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.oracle.wls.shaded.org.apache.bcel.classfile.Method;
+import org.json.JSONObject;
 
-import jakarta.servlet.Servlet;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,20 +17,26 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class BoardController
- */
-@WebServlet("/boardShow")
-public class boardControllerServlet extends HttpServlet {
+public class ActionServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+//	Map<String, Action> actionMap = new HashMap<>();
+	//클래스명 맵
 	Map<String, Object> className2ObjectMap = new HashMap<>();
 	//객체 맵
 	Map<String, Object> objectMap = new HashMap<>();
 	//메서드 맵 
 	Map<String, Method> methodMap = new HashMap<>();
 	String contextPath;
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
+	
+   
+	public ActionServlet() {
+//		actionMap.put("update", new UpdateAction());
+//		actionMap.put("updateForm", new UpdateFormAction());
+//		actionMap.put("register", new RegisterAction());
+//		actionMap.put("registerForm", new RegisterFormAction());
+	}
+	
+	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		
@@ -41,6 +50,7 @@ public class boardControllerServlet extends HttpServlet {
 			line = line.trim();
 			
 			String [] actionInfo = line.split(":");
+//			System.out.println(Arrays.toString(actionInfo));
 			//클래스를 로딩한다
 			Class<?> cls = Class.forName(actionInfo[1]);
 			
@@ -69,31 +79,40 @@ public class boardControllerServlet extends HttpServlet {
 		
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-		doHandle(request, response);
-	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-		doHandle(request, response);
-	}
-
-	private void doHandle(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getRequestURI();
 		path = path.substring(contextPath.length());
 		Object obj = objectMap.get(path);
 		Method method = methodMap.get(path);
+		System.out.println("ActionServlet: " + path);
 		if (obj != null && method != null) {
 			//action.execute(request, response);
 			try {
-				method.invoke(obj, request, response);
+				Object ret = method.invoke(obj, request, response);
+				if (ret.getClass().equals(String.class)) {
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF" + (String) ret);
+					dispatcher.forward(request, response);
+				} else if (ret.getClass().equals(JSONObject.class)) {
+					JSONObject jsonResult = (JSONObject) ret;
+					PrintWriter out = response.getWriter();
+					out.println(jsonResult == null ? "{status:false}" : jsonResult.toString());
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+	}
+/*	
+URL => 어떤작업실행(메서드, 함수)
+class명,
+메소드 호출 방법
+1. 일반 메서드 : obj.method()
+2. 정적 메서드 : ClassName.method()
+*/	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

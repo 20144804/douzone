@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xmlns:web="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="5.0">
+
+	<display-name>WebProject</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<description>ActionServlet</description>
+		<display-name>action</display-name>
+		<servlet-name>action</servlet-name>
+		<servlet-class>action.ActionServlet</servlet-class>
+		<init-param>
+			<param-name>actionNames</param-name>
+			<param-value>
+         /member/loginForm.do:servlet.MemberAction:loginForm
+         /member/login.do:servlet.MemberAction:login
+         /member/logout.do:servlet.MemberAction:logout
+         /member/joinForm.do:servlet.MemberAction:joinForm 
+          /member/findIdForm.do:servlet.MemberAction:findIdForm
+          /member/findId.do:servlet.MemberAction:findId
+           /member/findPwdForm.do:servlet.MemberAction:findPwdForm
+           /member/findPwd.do:servlet.MemberAction:findPwd
+   		/member/dupUidCheck.do:servlet.MemberAction:dupUidCheck
+       /member/insert.do:servlet.MemberAction:join
+       /member/show.do:servlet.MemberAction:show 
+       /member/updateMemberForm.do:servlet.MemberAction:updateMemberForm
+       /member/updateMember.do:servlet.MemberAction:updateMember
+       /member/withDraw.do:servlet.MemberAction:deleteForm
+       /member/delete.do:servlet.MemberAction:delete
+       /member/list.do:servlet.MemberAction:list
+         /member/deleteAdmin.do:servlet.MemberAction:deleteAdmin
+       /member/act.do:servlet.MemberAction:act
+       /member/stop.do:servlet.MemberAction:stop
+       /member/adminSearch.do:servlet.MemberAction:adminSearch
+       /board/boardShow.do:board.BoardAction:boardShow
+       /board/detail.do:board.BoardAction:detail
+       
+      </param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+</web-app>

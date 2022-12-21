@@ -6,7 +6,7 @@
 <%
   request.setCharacterEncoding("UTF-8");
 %> 
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<%-- <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> --%>
 <head>
    <meta charset="UTF-8">
    <title>글보기</title>
@@ -53,7 +53,27 @@
     ${board.content}
    </td>  
   </tr>
- 
+
+ <c:if test="${not empty boardFileVoList}">  
+ 	  <c:forEach  var="boardFile" items="${boardFileVoList}" varStatus="boardFileNum" >
+<tr>
+   <td width="20%" align="center" bgcolor="#FF9933"  rowspan="2">
+      이미지 ${boardFileNum.count}</td>
+   <td>
+     <input  type= "hidden"   name="org_name" value="${boardFile.org_name }" />
+ <%--   <img src="${contextPath}/download?org_name=${boardFile.org_name}&f_id=${boardFile.f_id }"   id="preview"  /><br>  --%>
+	<%-- <img src="${boardFile.real_name}"  id="preview"  alt="upload Image"/><br> --%>
+	<%-- <img src="localhost:8080/preview/"${boardFile.real_name} target="_blank"/>  --%>
+
+   </td>   
+  </tr>  
+  <tr>
+    <td>
+       <input  type="file"  name="imageFileName " id="i_imageFileName"   disabled   onchange="readURL(this);"   />
+    </td>
+  </tr>
+  </c:forEach>
+ </c:if>
 
   <tr>
 	   <td width="20%" align="center" bgcolor="#FF9933">
@@ -63,9 +83,9 @@
 	    <input type=text value="<fmt:formatDate value='${board.writeDate}' />" disabled />
 	   </td>   
   </tr>
- 
+
     
-  <tr  id="tr_btn"    >
+  <tr  id="tr_btn">
    <td colspan=2 align="center">
    
 	  <button type="submit" >수정하기</button>

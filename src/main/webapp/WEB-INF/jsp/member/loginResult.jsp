@@ -29,7 +29,7 @@
 					</c:when>
 					<c:when test="${empty sessionId}">
 						<script type="text/javascript">
-							location.href='/project/main.jsp';
+							location.href='/jsp/member/main.jsp';
 							alert("로그인실패");
 						</script>
 					</c:when>

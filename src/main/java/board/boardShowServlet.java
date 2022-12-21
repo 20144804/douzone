@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class BoardController
  */
-@WebServlet("/boardShow")
+//@WebServlet("/boardShow")
 public class boardShowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	BoardVO articleVO;

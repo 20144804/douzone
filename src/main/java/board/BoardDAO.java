@@ -32,8 +32,8 @@ public class BoardDAO {
 		}
 	}
 
-	public List selectAllArticles() {
-		List articlesList = new ArrayList();
+	public List<BoardVO> selectAllArticles() {
+		List<BoardVO> articlesList = new ArrayList<BoardVO>();
 		try {
 			conn = dataFactory.getConnection();
 			String query = "SELECT num,title,content,id,writeDate,category "
@@ -44,33 +44,58 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-			
-				int num = rs.getInt("num");
-				String title = rs.getString("title");
-				String content = rs.getString("content");
-				String id = rs.getString("id");
-				Date writeDate = rs.getDate("writeDate");
-				String category =rs.getString("category");
-				BoardVO article = new BoardVO();
-				
-			
-				article.setNum(num);
-				article.setTitle(title);
-				article.setContent(content);
-				article.setId(id);
-				article.setWriteDate(writeDate);
-				article.setCategory(category);
-				articlesList.add(article);
+				BoardVO boardVo = new BoardVO(
+				rs.getInt("num"),
+				rs.getString("title"),
+				rs.getString("content"),
+				rs.getString("id"),
+				rs.getDate("writeDate"),
+				rs.getString("category")
+				);
+				articlesList.add(boardVo);
 			}
 			rs.close();
 			pstmt.close();
-			conn.close();
+		//	conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return articlesList;
 	}
+	
+	public List<BoardVO> selectBy(int offset, int limit) {
+		List<BoardVO> articlesList = new ArrayList<BoardVO>();
+		try {
+			conn = dataFactory.getConnection();
+			String query = "SELECT num,title,content,id,writeDate,category "
+					+ " from board"
+					+ " ORDER BY parentNo limit ?, ?";
+			System.out.println(query);
 
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, limit);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				BoardVO boardVo = new BoardVO(
+				rs.getInt("num"),
+				rs.getString("title"),
+				rs.getString("content"),
+				rs.getString("id"),
+				rs.getDate("writeDate"),
+				rs.getString("category")
+				);
+				articlesList.add(boardVo);
+			}
+			rs.close();
+			pstmt.close();
+		//	conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return articlesList;
+	}
+	
 	public int searchMaxNum() {
 		// TODO Auto-generated method stub
 		int num=0;
@@ -88,7 +113,7 @@ public class BoardDAO {
 		
 			rs.close();
 			pstmt.close();
-			conn.close();
+		//	conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,7 +138,7 @@ public class BoardDAO {
 			
 			pstmt.close();
 			conn.commit();
-			conn.close();
+		//	conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -134,8 +159,8 @@ public class BoardDAO {
 		         
 		        
 		         pstmt.close();
-		         con.close();
-		         conn.close();
+		     //    con.close();
+		     //    conn.close();
 		         return result;
 		      } catch (Exception e) {
 		         e.printStackTrace();
@@ -180,7 +205,7 @@ public class BoardDAO {
 			
 			rs.close();
 			pstmt.close();
-			conn.close();
+		//	conn.close();
 		}catch(Exception e){
 			e.printStackTrace();	
 		}
@@ -205,7 +230,7 @@ public class BoardDAO {
 			
 			rs.close();
 			pstmt.close();
-			conn.close();
+		//	conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -231,7 +256,7 @@ public class BoardDAO {
 		
 		pstmt.close();
 		conn.commit();
-		conn.close();
+	//	conn.close();
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
@@ -268,7 +293,7 @@ public class BoardDAO {
 			
 			rs.close();
 			pstmt.close();
-			conn.close();
+		//	conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -306,7 +331,7 @@ public class BoardDAO {
 			
 			rs.close();
 			pstmt.close();
-			conn.close();
+		//	conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -349,9 +374,32 @@ public class BoardDAO {
 //		return list;
 //	}
 
-	
-	
-	
-	
-	
+	public int totalPageNo(String text) {
+		int totalPageSize = 0; 
+		final int rowSize = 10; 
+		System.out.println("Text: " + text);
+		text = "";
+		try {
+			// String query = "select ceil(COUNT(*) / ? ) from board where title like concat('%', ?, '%') or content like concat('%', ?, '%')or writeId like concat('%', ?, '%') ";
+			
+			String query = "select ceil(COUNT(*) / ? ) from board where title like concat('%', ?, '%') or content like concat('%', ?, '%')or id like concat('%', ?, '%') ";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, rowSize);
+			pstmt.setString(2, text);
+			pstmt.setString(3, text);
+			pstmt.setString(4, text);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				totalPageSize = rs.getInt(1);
+				System.out.println("totalPageSize - totalPageNo Query: " + totalPageSize);
+			}
+			rs.close();
+			pstmt.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return totalPageSize; 
+	}
 }

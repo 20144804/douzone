@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="navbar-header">
-	<a class="navbar-brand" href="<c:url value="/main.jsp"/>">Home</a>
+	<a class="navbar-brand" href="<c:url value="/member/loginForm.do"/>">Home</a>
 </div>
 
 아이디 : ${memberBean.uid}<br/> 

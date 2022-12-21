@@ -1,4 +1,3 @@
-<!-- utf-8설정 및 페이지 정보 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -34,7 +33,7 @@
 						</c:when>
 				<c:when test="${empty sessionId}">
 				<h3 class="form-signin-heading">로그인</h3>
-			<form class="form-signin" id ="loginForm" name ="loginForm" action="/project/login" method="post">
+			<form class="form-signin" id ="loginForm" name ="loginForm" action="/project/member/login.do" method="post">
 
 				<div class="form-group">
 					<label for="inputUserName" class="sr-only">User Name</label> <input

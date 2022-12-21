@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page import="project.servlet.MemberBean"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -21,8 +20,6 @@
 	<h1>회원수정</h1>
 	<h2>1 정보입력</h2>
 
-
-	
 		<input type="password" id="pwd" name="pwd"  placeholder="변경할 비밀번호"><br/>
 		<input type="text" id="name1" name="name1" placeholder="이름"><br />
 
@@ -75,7 +72,7 @@ function jsInsert () {
 				"email2" : email2.value
 			};
 			
-			fetch('/project/update', {
+			fetch('/project/member/updateMember.do', {
 				//option
 				method : 'POST',
 				headers: {
@@ -89,7 +86,7 @@ function jsInsert () {
 				alert(jsonResult.message);
 				if (jsonResult.status == true) {
 					//성공시 이동할 페이지로 이동한다  
-					location.href = "/project/main.jsp";
+					location.href = "/project/member/loginForm.do";
 				}
 			});
 		}

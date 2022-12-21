@@ -1,8 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="project.servlet.MemberBean"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <!DOCTYPE html>
 <html>
@@ -231,20 +229,21 @@ insertButton.onclick = () => {
 
 async function dupUidCheck() {
 
-	let response = await fetch('/project/join/dupUidCheck?uid=' + uid.value);
+	let response = await fetch('/project/member/dupUidCheck.do?uid=' + uid.value);
 	
 	let jsonResult = await response.json();
 	if (jsonResult.status == false) {
 		alert("[" + uid.value + "]" + jsonResult.message);
+		
+	} else {
+		let uid_valid_msg = document.querySelector("#uid_valid_msg");
+		uid_valid_msg.innerHTML =  "[" + uid.value + "]" + jsonResult.message;
 	}
-	let uid_valid_msg = document.querySelector("#uid_valid_msg");
-	uid_valid_msg.innerHTML =  "[" + uid.value + "]" + jsonResult.message;
-	
-}
+} 
 
 function jsInsert () {
 	//아이디 중복 확인
-	fetch('/project/join/dupUidCheck?uid=' + uid.value)
+	fetch('/project/member/dupUidCheck.do?uid=' + uid.value)
 	.then(response => response.json())
 	.then(jsonResult => {
 		let uid_valid_msg = document.querySelector("#uid_valid_msg");
@@ -252,7 +251,6 @@ function jsInsert () {
 		if (jsonResult.status == false) {
 			alert("[" + uid.value + "]" + jsonResult.message);
 		} else {
-			
 			//uid=user10&pwd=123&name=홍길동
 		
 			let param = {
@@ -266,7 +264,7 @@ function jsInsert () {
 				"email2" : email2.value
 			};
 			
-			fetch('/project/join/insert', {
+			fetch('/project/member/insert.do', {
 				//option
 				method : 'POST',
 				headers: {
@@ -277,8 +275,8 @@ function jsInsert () {
 			.then(response => response.json())
 			.then(jsonResult => {
 				//처리후 메시지 출력
-			/* 	alert(jsonResult.message);
-				alert(jsonResult.status);
+			 	alert(jsonResult.message);
+				/*alert(jsonResult.status);
 				alert(jsonResult.url); */
 				if (jsonResult.status == true) {
 					//성공시 이동할 페이지로 이동한다  

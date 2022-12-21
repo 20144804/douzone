@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet implementation class zzz
  */
-@WebServlet("/write")
+//@WebServlet("/write")
 public class writeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -88,20 +88,6 @@ public class writeServlet extends HttpServlet {
 				BoardVO boardVo = new BoardVO(maxNum, id, title, category, content);
 				dao.addBoard(boardVo);
 
-//				for (FileItem fileItem : mapItems.get("uploadFile")) {
-//					if (fileItem.getSize() == 0)
-//						continue;
-//					String real_name = "c:\\upload\\" + System.nanoTime();
-//					fileItem.write(new File(real_name));
-//
-//					BoardFileVO boardFileVo = BoardFileVO.builder().num(maxNum).org_name(fileItem.getName())
-//							.real_name(real_name).content_type(fileItem.getContentType()).length(fileItem.getSize())
-//							.build();
-//					System.out.println(boardFileVo);
-//					boardFileDAO.insertBoardFile(boardFileVo);
-//				}
-
-				
 				for (FileItem fileItem : mapItems.get("uploadFile")) {
 					if (fileItem.getSize() == 0)
 						continue;
@@ -114,9 +100,6 @@ public class writeServlet extends HttpServlet {
 					System.out.println(boardFileVo);
 					boardFileDAO.insertBoardFile(boardFileVo);
 				}
-
-				
-				
 				
 				boardFileDAO.close();
 

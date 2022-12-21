@@ -15,7 +15,7 @@ import java.lang.reflect.Member;
 /**
  * Servlet implementation class MemberServlet
  */
-@WebServlet("/delete")
+//@WebServlet("/delete")
 public class deleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

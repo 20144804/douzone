@@ -14,14 +14,11 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet implementation class MemberServlet
  */
-@WebServlet ("/login")
+
+//@WebServlet ("/login")
 public class loginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
  
-	/**
-     * @see HttpServlet#HttpServlet()
-     */
     public loginServlet() {
         super();
         // TODO Auto-generated constructor stub

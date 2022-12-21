@@ -16,16 +16,19 @@
 				<ul class="navbar-nav mr-auto">
 					<c:choose>
 						<c:when test="${empty sessionId}">	
-							<li class="nav-item">
+							<%-- <li class="nav-item">
 								<a class="nav-link" href="<c:url value="/member/addMember.jsp"/>">회원가입</a>
+							</li> --%>
+							<li class="nav-item">
+								<a class="nav-link" href="<c:url value="/member/joinForm.do"/>">회원가입</a>
 							</li>
 							
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/member/findId.jsp"/>">아이디찾기</a>
+								<a class="nav-link" href="<c:url value="/member/findIdForm.do"/>">아이디찾기</a>
 							</li>	
 							
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/member/findPwd.jsp"/>">비밀번호찾기</a>
+								<a class="nav-link" href="<c:url value="/member/findPwdForm.do"/>">비밀번호찾기</a>
 							</li>
 							
 											
@@ -36,13 +39,13 @@
 							</li>
 							<li class="nav-item">	
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/manageMember"/>">회원관리모드</a>
+								<a class="nav-link" href="<c:url value="/member/list.do"/>">회원관리모드</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/boardShow"/>">게시판</a>
+								<a class="nav-link" href="<c:url value="/board/boardShow.do?searchContent="/>">게시판</a>
 							</li>			
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
+								<a class="nav-link" href="<c:url value="/member/logout.do"/>">로그아웃</a>
 							</li>
 							
 							<li class="nav-item">
@@ -54,22 +57,22 @@
 								[<%=sessionId %>님]
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
+								<a class="nav-link" href="<c:url value="/member/logout.do"/>">로그아웃</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/show"/>">상세정보</a>
+								<a class="nav-link" href="<c:url value="/member/show.do"/>">상세정보</a>
 							</li>								
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/member/updateMember.jsp"/>">회원수정</a>
+								<a class="nav-link" href="<c:url value="/member/updateMemberForm.do"/>">회원수정</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<c:url value="/boardShow"/>">게시판</a>
+								<a class="nav-link" href="<c:url value="/board/boardShow.do?searchContent="/>">게시판</a>
 							</li>			
 							<li class="nav-item">
 								<a class="nav-link" href="<c:url value="/roomList"/>">채팅</a>
 							</li>
 							<li class="nav-item">
-								 <a class="nav-link" href="<c:url value="/member/withDraw.jsp"/>">회원탈퇴</a>
+								 <a class="nav-link" href="<c:url value="/member/withDraw.do"/>">회원탈퇴</a>
 							</li>	
 															
 						</c:otherwise>					

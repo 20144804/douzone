@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class MemberServlet
  */
-@WebServlet("/act")
+//@WebServlet("/act")
 public class actServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -36,17 +36,6 @@ public class actServlet extends HttpServlet {
 
 		MemberDAO dao = new MemberDAO();
 		boolean result = dao.actMemeber(user_id);
-//		
-
-//		if (result) {
-//			HttpSession session = request.getSession();
-//	
-//
-//		} else {
-//			RequestDispatcher rd = request.getRequestDispatcher("/loginMain.jsp");
-//			rd.forward(request, response);
-//		}
-		
 
 	}
 

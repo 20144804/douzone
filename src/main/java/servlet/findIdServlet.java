@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/findId")
+//@WebServlet("/findId")
 public class findIdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

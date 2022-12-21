@@ -38,7 +38,7 @@ function jsInsert () {
 				"email2" : email2.value
 			};
 			
-			fetch('/project/findPwd', {
+			fetch('/project/member/findPwd.do', {
 				//option
 				method : 'POST',
 				headers: {
@@ -50,12 +50,7 @@ function jsInsert () {
 			.then(jsonResult => {
 				//처리후 메시지 출력
 				alert(jsonResult.message);
-				/* if (jsonResult.status == true) {
-					alert(jsonResult.message);
-				}
-				else{
-					alert(jsonResult.message);
-				} */
+				location.href = jsonResult.url;
 			});
 			
 		}

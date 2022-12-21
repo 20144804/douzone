@@ -409,6 +409,33 @@ public class MemberDAO {
 		
 	}
 
+
+	public List<MemberBean> adminSearch(String user_id) {
+List<MemberBean> list = new ArrayList<>();
+		try {
+			conn = dataFactory.getConnection();
+			pstmt = conn.prepareStatement("select * from memberdb where uid = ?");
+			pstmt.setString(1, user_id);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				MemberBean member = new MemberBean(
+						rs.getString("uid"),	
+						rs.getString("PWD"),	
+						rs.getString("NAME"),	
+						rs.getString("PHONE"),
+						rs.getString("email")
+						);
+				list.add(member);
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+
 	
 	
 }

@@ -85,7 +85,7 @@ insertFile.addEventListener("click", insertFileEventHandler);
                 console.error( error );
         } );
 
-       let edit = document.querySelector("#edit");
+     let edit = document.querySelector("#edit");
         edit.addEventListener("submit", (e) => {
            e.preventDefault();        
 
@@ -103,7 +103,7 @@ insertFile.addEventListener("click", insertFileEventHandler);
         		         	location.href =  jsonResult.url;
         		         
         		      });
-        		});  
+        		}); 
         		
 /*   $(function() {
 	 
@@ -115,19 +115,19 @@ insertFile.addEventListener("click", insertFileEventHandler);
         				async:false,
         				url:"http://localhost:8800/project/write",
         				data:{data:_data},
-        				success:function(){
-        					
+        				success:function(jsonResult){
+        					alert(jsonResult.message);
         				},
-        				error:function(){
-        					alert("에러 발생");
+        				error:function(jsonResult){
+        					alert(jsonResult.message);
         				}
-        				complete:function(){
+        				complete:function(jsonResult){
         					
         				}
         			}) 
 	 })
- }) */
-     
+ }) 
+      */
         		
         				
         		

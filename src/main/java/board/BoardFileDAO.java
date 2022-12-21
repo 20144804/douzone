@@ -37,18 +37,18 @@ public class BoardFileDAO {
 	public List<BoardFileVO> list(int number) {
 		List<BoardFileVO> list = new ArrayList<>();
 		try {
-			// connDB();
-			String query = "select * from boardfile where `number` = ?";
-			System.out.println("prepareStatememt: " + query);
+			conn = dataFactory.getConnection();
+			String query = "select * from boardfile where num = ?";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, number);
 			ResultSet rs = pstmt.executeQuery();
-			
 			while (rs.next()) {
+//				String real_path[]=rs.getString("real_name").split("\\\\");
 				BoardFileVO boardFile = new BoardFileVO(
 						rs.getInt("f_id"),	
 						rs.getInt("num"),	
 						rs.getString("org_name"),
+//						real_path[real_path.length-1],
 						rs.getString("real_name"),
 						rs.getString("content_type"),
 						rs.getLong("length"));
@@ -66,6 +66,7 @@ public class BoardFileDAO {
 	
 //게시물 등록
 	public void insertBoardFile(BoardFileVO boardFile) throws SQLException {
+		conn = dataFactory.getConnection();
 		String query = "insert into boardfile (num, org_name, real_name, content_type, length) VALUES(?,?,?,?,?)";
 		System.out.println("prepareStatememt: " + query);
 		pstmt = conn.prepareStatement(query);
@@ -85,5 +86,38 @@ public class BoardFileDAO {
 			conn.close();
 		}
 	}
+
+//	public BoardFileVO getFile(int num) {
+//		BoardFileVO boardFile=null;
+//		// TODO Auto-generated method stub
+//		try {
+//			// connDB();
+//			String query = "select * from boardfile where `num` = ?";
+//			System.out.println("prepareStatememt: " + query);
+//			pstmt = conn.prepareStatement(query);
+//			pstmt.setInt(1,  num);
+//			ResultSet rs = pstmt.executeQuery();
+//			
+//			if (rs.next()) {
+//				boardFile = new BoardFileVO(
+//						rs.getInt("f_id"),	
+//						rs.getInt("num"),	
+//						rs.getString("org_name"),
+//						rs.getString("real_name"),
+//						rs.getString("content_type"),
+//						rs.getLong("length"));
+//				System.out.println(boardFile);
+//		
+//			}
+//			rs.close();
+//			pstmt.close();
+//			conn.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return boardFile;
+//	}
+
+	
 
 }

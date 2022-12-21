@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/findPwd")
+//@WebServlet("/findPwd")
 public class findPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

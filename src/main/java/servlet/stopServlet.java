@@ -15,7 +15,7 @@ import java.lang.reflect.Member;
 /**
  * Servlet implementation class MemberServlet
  */
-@WebServlet("/stop")
+//@WebServlet("/stop")
 public class stopServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

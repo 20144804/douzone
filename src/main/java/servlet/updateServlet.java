@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet implementation class MemberServlet
  */
-@WebServlet("/update/*")
+/* @WebServlet("/update/*") */
 public class updateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
