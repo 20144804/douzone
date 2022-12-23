@@ -2,7 +2,9 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> --%>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
 
 <%
 request.setCharacterEncoding("UTF-8");
@@ -22,7 +24,7 @@ request.setCharacterEncoding("UTF-8");
 }
 </style>
 <meta charset="UTF-8">
-<title>로그인 창</title>
+<title>유저 관리창</title>
 </head>
 <body>
 	<form id = "searchForm" name="searchForm">
@@ -39,8 +41,7 @@ request.setCharacterEncoding("UTF-8");
 				<th>전화번호</th>
 				<th>이메일</th>
 				<th>삭제</th>
-				<th>정지</th>
-				<th>활성화</th>
+				<th>사용/미사용</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -54,11 +55,15 @@ request.setCharacterEncoding("UTF-8");
 					<td width="10%">${list_.email}</td>
 					<td><a
 						href='/project/member/deleteAdmin.do?userid=${list_.uid}'>삭제</a></td>
-					<td><a
+					<%-- <td><a
 						href='/project/member/stop.do?userid=${list_.uid}'>정지</a></td>
 					<td><a
-						href='/project/member/act.do?userid=${list_.uid}'>활성화</a></td>
-
+						href='/project/member/act.do?userid=${list_.uid}'>활성화</a></td> --%>
+				    <td>
+				    	<a href="#" class="allow" data-uid="${list_.uid}" data-useyn="${list_.allow}" >
+				    		<span id="allow_${list_.uid}">${list_.allow == 'y' ? '사용' : '미사용'}</span>
+				    	</a>
+			    	</td>
 				</tr>
 			</c:forEach>
 
@@ -74,6 +79,43 @@ searchButton.addEventListener("click", e => {
    content.action = "/project/member/adminSearch.do";
    content.submit();
    });
+
+
+$(".allow").on("click", e=>{
+	let aLink=e.target.parentNode;
+	e.preventDefault();
+	console.log("hi");
+	let uid = aLink.getAttribute("data-uid");
+    let useYn = aLink.getAttribute("data-useyn");
+    
+    let param = {
+    		uid : uid,
+    	    useYn : useYn
+    };
+	
+	if (!confirm((useYn == 'y' ? '미사용' : '사용') +  "으로 변경하시겠습니까?"))
+		return;
+		
+	$.ajax({
+		type:"post",
+		async:true,
+		 url :"<c:url value='/member/adminShow.do'/>", 
+	
+		data: JSON.stringify(param),
+		dataType:"JSON",
+		contentType: "application/json;charset=utf-8",
+		success : (jsonResult, textStatus) => {
+			alert(jsonResult.message);
+			if (jsonResult.status == true) {
+				searchForm.submit();    			
+			}
+		}
+	});
+	
+});
+
+
+	
 
 </script>
 </body>

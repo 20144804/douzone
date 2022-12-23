@@ -28,4 +28,14 @@ public class MemberBean {
 		this.phone=phone;
 		this.email=email;
 	}
+
+	
+	public MemberBean(String uid, String pwd, String name, String phone, String email, String allow) {
+		this.uid=uid;
+		this.pwd=pwd;
+		this.name=name;
+		this.phone=phone;
+		this.email=email;
+		this.allow=allow;
+	}
 }

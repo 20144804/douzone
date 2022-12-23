@@ -39,12 +39,11 @@
        /member/delete.do:servlet.MemberAction:delete
        /member/list.do:servlet.MemberAction:list
          /member/deleteAdmin.do:servlet.MemberAction:deleteAdmin
-       /member/act.do:servlet.MemberAction:act
-       /member/stop.do:servlet.MemberAction:stop
+       /member/adminShow.do:servlet.MemberAction:adminShow
        /member/adminSearch.do:servlet.MemberAction:adminSearch
        /board/boardShow.do:board.BoardAction:boardShow
        /board/detail.do:board.BoardAction:detail
-       
+     
       </param-value>
 		</init-param>
 	</servlet>

@@ -82,14 +82,21 @@ public class ActionServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getRequestURI();
+		//함수명
 		path = path.substring(contextPath.length());
+		
 		Object obj = objectMap.get(path);
+		//함수명을 전달
 		Method method = methodMap.get(path);
 		System.out.println("ActionServlet: " + path);
+		System.out.println("methodMap:"+methodMap);
+		System.out.println("className2ObjectMap:"+className2ObjectMap);
 		if (obj != null && method != null) {
 			//action.execute(request, response);
 			try {
+				//invoke:메소드를 실행, 오브젝트는 다 받을 수 있어서 사용
 				Object ret = method.invoke(obj, request, response);
+				
 				if (ret.getClass().equals(String.class)) {
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF" + (String) ret);
 					dispatcher.forward(request, response);

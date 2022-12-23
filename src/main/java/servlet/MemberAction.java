@@ -15,6 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+//import member.dao.MemberDAO;
 
 public class MemberAction {
 
@@ -110,6 +111,8 @@ public class MemberAction {
 		}
 
 	}
+	
+	
 
 	public String joinForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -344,29 +347,36 @@ public class MemberAction {
 		return "/jsp/member/listMembers.jsp";
 	}
 	
-	public String act(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
+	public JSONObject adminShow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("show 들어옴");
 		
-		String user_id = request.getParameter("userid");
+		BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
+		String jsonStr = in.readLine();
+		System.out.println("jsonStr = " + jsonStr);
 
-		MemberDAO dao = new MemberDAO();
-		boolean result = dao.actMemeber(user_id);
-		return "/jsp/member/listMembers.jsp";
+		JSONObject jsonMember = new JSONObject(jsonStr);
+		String uid = jsonMember.getString("uid");
+		String useYn = jsonMember.getString("useYn");
+		System.out.println("uid:"+uid);
+		System.out.println("useYn:"+useYn);
+		
+		MemberDAO memberDAO = new MemberDAO();
+		int count = memberDAO.updateUseYn(uid, "y".equals(useYn) ? "n" : "y");
+//		memberDAO.close();
+		JSONObject jsonResult = new JSONObject();
+		
+		if (count != 0) {
+			jsonResult.put("status", true);
+			jsonResult.put("message", "회원의 상태를 변경하였습니다.");
+		} else {
+			jsonResult.put("status", false);
+			jsonResult.put("message", "회원상태 변경 실패되었습니다.");
+		}
+		return jsonResult;
+		
 
 	}
 	
-	public String stop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
-		
-		String user_id = request.getParameter("userid");
-	
-		MemberDAO dao = new MemberDAO();
-		boolean result = dao.stopMemeber(user_id);
-		return "/jsp/member/listMembers.jsp";
-
-	}
 	
 	public String adminSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("HERE~~~~~~~~~~~~~~~");
@@ -382,5 +392,27 @@ public class MemberAction {
 		
 
 	}
-	
+	//	public String act(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	//	request.setCharacterEncoding("utf-8");
+	//	response.setContentType("text/html;charset=utf-8");
+	//	
+	//	String user_id = request.getParameter("userid");
+	//
+	//	MemberDAO dao = new MemberDAO();
+	//	boolean result = dao.actMemeber(user_id);
+	//	return "/jsp/member/listMembers.jsp";
+	//
+	//}
+	//
+	//public String stop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	//	request.setCharacterEncoding("utf-8");
+	//	response.setContentType("text/html;charset=utf-8");
+	//	
+	//	String user_id = request.getParameter("userid");
+	//
+	//	MemberDAO dao = new MemberDAO();
+	//	boolean result = dao.stopMemeber(user_id);
+	//	return "/jsp/member/listMembers.jsp";
+	//
+	//}
 }

@@ -34,7 +34,7 @@ public class MemberDAO {
 	public void addMember(MemberBean member) throws SQLException {
 		try {
 			conn = dataFactory.getConnection();
-			conn.setAutoCommit(true);
+			conn.setAutoCommit(false);
 			String query = "insert into memberDB";
 			query += " (uid, pwd, name,phone, email)";
 			query += " values(?,?,?,?,?)";
@@ -132,7 +132,7 @@ public class MemberDAO {
 		try {
 			// connDB();
 			conn = dataFactory.getConnection();
-			String query = "select uid,pwd,name,email,phone from memberdb where uid = ?";
+			String query = "select uid,pwd,name,email,phone, allow from memberdb where uid = ?";
 			System.out.println("prepareStatememt: " + query);
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, id);
@@ -144,7 +144,8 @@ public class MemberDAO {
 						rs.getString("pwd"),	
 						rs.getString("name"),	
 						rs.getString("phone"),	
-						rs.getString("email"));
+						rs.getString("email"),
+						rs.getString("allow"));
 			}
 			
 			rs.close();
@@ -278,7 +279,8 @@ public class MemberDAO {
 						rs.getString("PWD"),	
 						rs.getString("NAME"),	
 						rs.getString("PHONE"),
-						rs.getString("email")
+						rs.getString("email"),
+						rs.getString("allow")
 						);
 				list.add(member);
 			}
@@ -291,58 +293,81 @@ public class MemberDAO {
 		return list;
 	}
 
-	public boolean stopMemeber(String user_id) {
-		// TODO Auto-generated method stub
-		boolean num=false;
-		
+//	public boolean stopMemeber(String user_id) {
+//		// TODO Auto-generated method stub
+//		boolean num=false;
+//		
+//		try {
+//			conn = dataFactory.getConnection();
+//			conn.setAutoCommit(true);
+//			String query = "update memberDB set ";
+//			query += "allow = ?";
+//			query += " where uid = ?";
+//			System.out.println("prepareStatememt: " + query);
+//			pstmt = conn.prepareStatement(query);
+//			pstmt.setString(1, "n");
+//			pstmt.setString(2, user_id);
+//		
+//			num = pstmt.execute();
+//		
+//			pstmt.close();
+//			conn.commit();
+//			conn.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			
+//		}
+//		return num;
+//	}
+//	
+//	public boolean actMemeber(String user_id) {
+//		// TODO Auto-generated method stub
+//		boolean num=false;
+//		try {
+//			conn = dataFactory.getConnection();
+//			conn.setAutoCommit(true);
+//			String query = "update memberDB set ";
+//			query += "allow = ?";
+//			query += " where uid = ?";
+//			System.out.println("prepareStatememt: " + query);
+//			pstmt = conn.prepareStatement(query);
+//			pstmt.setString(1, "y");
+//			pstmt.setString(2, user_id);
+//		
+//			num = pstmt.execute();
+//		
+//			pstmt.close();
+//			conn.commit();
+//			conn.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			
+//		}
+//		return num;
+//	}
+	
+	public int updateUseYn(String uid, String useYn) {
+		int count = 0;
 		try {
 			conn = dataFactory.getConnection();
-			conn.setAutoCommit(true);
-			String query = "update memberDB set ";
-			query += "allow = ?";
-			query += " where uid = ?";
+			conn.setAutoCommit(false);
+			String query = "update memberdb set allow = ? where uid = ?";
 			System.out.println("prepareStatememt: " + query);
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, "n");
-			pstmt.setString(2, user_id);
-		
-			num = pstmt.execute();
-		
+			pstmt.setString(1, useYn);
+			pstmt.setString(2, uid);
+
+			count = pstmt.executeUpdate();
 			pstmt.close();
 			conn.commit();
-			conn.close();
-		} catch (SQLException e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}
-		return num;
+		return count;
 	}
 	
-	public boolean actMemeber(String user_id) {
-		// TODO Auto-generated method stub
-		boolean num=false;
-		try {
-			conn = dataFactory.getConnection();
-			conn.setAutoCommit(true);
-			String query = "update memberDB set ";
-			query += "allow = ?";
-			query += " where uid = ?";
-			System.out.println("prepareStatememt: " + query);
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, "y");
-			pstmt.setString(2, user_id);
-		
-			num = pstmt.execute();
-		
-			pstmt.close();
-			conn.commit();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		}
-		return num;
-	}
 
 	public int getAdmin(String user_id) {
 		// TODO Auto-generated method stub
