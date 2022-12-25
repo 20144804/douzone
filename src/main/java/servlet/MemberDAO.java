@@ -162,8 +162,8 @@ public class MemberDAO {
 	  
 	      try {
 	         conn = dataFactory.getConnection();
-	         conn.setAutoCommit(true);
-	         String query = "delete from memberdb where uid=?";
+	         conn.setAutoCommit(false);
+	         String query = "delete from memberdb where uid= ? ";
 	         System.out.println(query);
 	         pstmt = conn.prepareStatement(query);
 	         pstmt.setString(1, user_id);

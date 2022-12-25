@@ -40,6 +40,7 @@
        /member/list.do:servlet.MemberAction:list
          /member/deleteAdmin.do:servlet.MemberAction:deleteAdmin
        /member/adminShow.do:servlet.MemberAction:adminShow
+       /member/deleteAdmin.do:servlet.MemberAction:deleteAdmin
        /member/adminSearch.do:servlet.MemberAction:adminSearch
        /board/boardShow.do:board.BoardAction:boardShow
        /board/detail.do:board.BoardAction:detail

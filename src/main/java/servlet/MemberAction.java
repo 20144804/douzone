@@ -297,7 +297,6 @@ public class MemberAction {
 	}
 	
 	public JSONObject delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("application/json;charset=utf-8");
 		JSONObject jsonIn = new JSONObject(request.getReader().readLine());
@@ -335,21 +334,29 @@ public class MemberAction {
 		
 	}
 	
-	public String deleteAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public JSONObject deleteAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
-		
-		String user_id = request.getParameter("userid");
-
+		BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
+		String jsonStr = in.readLine();
+		JSONObject jsonMember = new JSONObject(jsonStr);
+		String uid = jsonMember.getString("uid");
 		MemberDAO dao = new MemberDAO();
-		int result = dao.deleteMemeber(user_id);
-		
-		return "/jsp/member/listMembers.jsp";
+		int result = dao.deleteMemeber(uid);
+		JSONObject jsonResult = new JSONObject();
+		if(result != 0) {
+			jsonResult.put("status", true);
+			jsonResult.put("message", "삭제 성공");
+		}
+		else{
+			jsonResult.put("status", false);
+			jsonResult.put("message", "삭제 실패");
+		}
+
+		return jsonResult;
 	}
 	
 	public JSONObject adminShow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("show 들어옴");
-		
 		BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
 		String jsonStr = in.readLine();
 		System.out.println("jsonStr = " + jsonStr);
@@ -373,8 +380,6 @@ public class MemberAction {
 			jsonResult.put("message", "회원상태 변경 실패되었습니다.");
 		}
 		return jsonResult;
-		
-
 	}
 	
 	
@@ -389,30 +394,8 @@ public class MemberAction {
 		HttpSession session =request.getSession();
 		session.setAttribute("list", list);
 		return "/jsp/member/listMembers.jsp";
-		
-
 	}
-	//	public String act(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	//	request.setCharacterEncoding("utf-8");
-	//	response.setContentType("text/html;charset=utf-8");
-	//	
-	//	String user_id = request.getParameter("userid");
-	//
-	//	MemberDAO dao = new MemberDAO();
-	//	boolean result = dao.actMemeber(user_id);
-	//	return "/jsp/member/listMembers.jsp";
-	//
-	//}
-	//
-	//public String stop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	//	request.setCharacterEncoding("utf-8");
-	//	response.setContentType("text/html;charset=utf-8");
-	//	
-	//	String user_id = request.getParameter("userid");
-	//
-	//	MemberDAO dao = new MemberDAO();
-	//	boolean result = dao.stopMemeber(user_id);
-	//	return "/jsp/member/listMembers.jsp";
-	//
-	//}
+	
+
+	
 }

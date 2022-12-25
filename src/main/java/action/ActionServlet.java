@@ -88,9 +88,9 @@ public class ActionServlet extends HttpServlet {
 		Object obj = objectMap.get(path);
 		//함수명을 전달
 		Method method = methodMap.get(path);
-		System.out.println("ActionServlet: " + path);
-		System.out.println("methodMap:"+methodMap);
-		System.out.println("className2ObjectMap:"+className2ObjectMap);
+//		System.out.println("ActionServlet: " + path);
+//		System.out.println("methodMap:"+methodMap);
+//		System.out.println("className2ObjectMap:"+className2ObjectMap);
 		if (obj != null && method != null) {
 			//action.execute(request, response);
 			try {

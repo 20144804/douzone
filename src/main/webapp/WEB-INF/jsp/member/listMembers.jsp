@@ -53,12 +53,9 @@ request.setCharacterEncoding("UTF-8");
 					<td width="10%">${list_.name}</td>
 					<td width="10%">${list_.phone}</td>
 					<td width="10%">${list_.email}</td>
-					<td><a
-						href='/project/member/deleteAdmin.do?userid=${list_.uid}'>삭제</a></td>
-					<%-- <td><a
-						href='/project/member/stop.do?userid=${list_.uid}'>정지</a></td>
-					<td><a
-						href='/project/member/act.do?userid=${list_.uid}'>활성화</a></td> --%>
+					<td>
+						<a class="adminDelete" data-uid="${list_.uid}" href='#'>삭제</a>
+					</td>
 				    <td>
 				    	<a href="#" class="allow" data-uid="${list_.uid}" data-useyn="${list_.allow}" >
 				    		<span id="allow_${list_.uid}">${list_.allow == 'y' ? '사용' : '미사용'}</span>
@@ -79,6 +76,40 @@ searchButton.addEventListener("click", e => {
    content.action = "/project/member/adminSearch.do";
    content.submit();
    });
+
+
+
+$(".adminDelete").on("click", e=>{
+	let aLink=e.target;
+	e.preventDefault();
+	let uid = aLink.getAttribute("data-uid");
+    
+    let param = {
+    		uid : uid
+    };
+	
+	if (!confirm("정말 삭제 하시겠습니까?"))
+		return;
+		
+	$.ajax({
+		type:"post",
+		async:true,
+		 url :"<c:url value='/member/deleteAdmin.do'/>", 
+	
+		data: JSON.stringify(param),
+		dataType:"JSON",
+		contentType: "application/json;charset=utf-8",
+		success : (jsonResult, textStatus) => {
+			alert(jsonResult.message);
+			if (jsonResult.status == true) {
+				searchForm.submit();    	
+			}
+		}
+	});
+	
+});
+
+
 
 
 $(".allow").on("click", e=>{
